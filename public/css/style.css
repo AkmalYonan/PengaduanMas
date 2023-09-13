@@ -1,0 +1,6 @@
+@media screen and (max-width: 640px) {
+    .mobile {
+        padding-left: 15px; /* Atur padding kiri sesuai kebutuhan Anda */
+        padding-right: 15px; /* Atur padding kanan sesuai kebutuhan Anda */
+    }
+}
