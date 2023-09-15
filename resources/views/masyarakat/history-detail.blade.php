@@ -125,6 +125,11 @@
                         @endif
                         @endif
                         <div class="mt-6 flex items-center justify-end gap-x-3">
+                            @if ($history->status == 'belum' && $history->nik_pengadu == Auth::user()->nik)
+                            <button data-modal-target="edit-modal" data-modal-toggle="edit-modal"
+                                class="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600">Edit
+                                Laporan</button>
+                            @endif
                             @if ($history->status == 'proses')
                             <button data-modal-target="medium-modal" data-modal-toggle="medium-modal"
                                 class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Tanggapi</button>
@@ -204,6 +209,159 @@
                                 </svg>
                                 Tambahkan
                             </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="edit-modal" tabindex="-1"
+                class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-4xl max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                                Large modal
+                            </h3>
+                            <button type="button"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="large-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <form action="{{route('history.edit',['id' => $history->id])}}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('patch')
+                            <div class="sm:p-5">
+                                <div class="border-b border-gray-900/10 pb-12">
+                                    <h2 class="text-base font-semibold leading-7 text-gray-900">Form Pengaduan</h2>
+                                    <p class="mt-1 text-sm leading-6 text-gray-600">Formulir ini bisa saja dilihat Oleh
+                                        Public, Jadi
+                                        Isilah dengan hati Hati dan Benar!</p>
+
+                                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <div class="sm:col-span-4">
+                                            <label for="username"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                                            <div class="mt-2">
+                                                <div
+                                                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                    <span
+                                                        class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">pengaduan.com/</span>
+                                                    <input type="text" name="username" id="username"
+                                                        autocomplete="username" value="{{ $history->user->username }}"
+                                                        disabled
+                                                        class="block flex-1 border-0 bg-transparent  py-1.5 pl-1 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="sm:col-span-3">
+                                            <label for="nik"
+                                                class="block text-sm font-medium leading-6 text-gray-900">NIK
+                                            </label>
+                                            <div class="mt-2">
+                                                <input type="text" name="nik" id="nik" autocomplete="nik"
+                                                    value="{{ $history->user->nik }}" disabled
+                                                    class="block w-full rounded-md border-0 py-1.5  disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:col-span-3">
+                                            <label for="name"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Nama</label>
+                                            <div class="mt-2">
+                                                <input type="text" name="name" id="name" autocomplete="family-name"
+                                                    disabled value="{{ $history->user->name}}"
+                                                    class="block w-full rounded-md disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <label for="email"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Email
+                                                address</label>
+                                            <div class="mt-2">
+                                                <input id="email" name="email" type="email" autocomplete="email"
+                                                    value="{{ $history->user->email }}" disabled
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <label for="judulLaporan"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Judul
+                                                Laporan</label>
+                                            <div class="mt-2">
+                                                <input type="text" name="judulLaporan" id="judulLaporan"
+                                                    autocomplete="judulLaporan" value="{{$history->judulLaporan}}"
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <label for="isiLaporan"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Detail
+                                                /
+                                                Kronologi</label>
+                                            <div class="mt-2">
+                                                <textarea id="isiLaporan" name="isiLaporan" rows="4"
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{$history->isiLaporan}}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <label for="image"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Foto
+                                                Kejadian <span class="text-slate-600 text-xs">(Opsional)</span></label>
+                                            <input
+                                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none "
+                                                id="image" name="image" type="file">
+                                        </div>
+
+
+                                        <div class="sm:col-span-3">
+                                            <label for="country"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Tanggal
+                                                Kejadian</label>
+                                            <div class="mt-2">
+                                                <input type="date" name="tgl_kejadian" id="tgl_kejadian"
+                                                    value="{{$history->tgl_kejadian}}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-full">
+                                            <label for="alamat"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Alamat</label>
+                                            <div class="mt-2">
+                                                <input type="text" name="alamat" id="alamat" autocomplete="alamat"
+                                                    value="{{$history->alamat}}"
+                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Modal footer -->
+                            <div
+                                class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                <button data-modal-hide="large-modal" type="submit"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
+                                    accept</button>
+                                <button data-modal-hide="large-modal" type="button"
+                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+                            </div>
                         </form>
                     </div>
                 </div>

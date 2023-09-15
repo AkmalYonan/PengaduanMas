@@ -84,6 +84,41 @@ class PengaduanController extends Controller
         return view('masyarakat.history-detail', compact('history', 'fileSizeKB', 'fileSizeMB', 'komentar'));
     }
 
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'alamat' => ['required'],
+            'judulLaporan' => ['required'],
+            'isiLaporan' => ['required'],
+            'tgl_kejadian' => ['required'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $dataLama = Pengaduan::where('id', $id)->get()[0];
+            Storage::delete([
+                $dataLama->image,
+            ]);
+
+            $request->validate([
+                'image' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
+            ]);
+            $fileName = now()->timestamp . '.' . $request->file('image')->getClientOriginalExtension();
+
+            Pengaduan::where('id', $id)->update([
+                'image' => $request->file('image')->storeAs('image', $fileName),
+            ]);
+        }
+
+        Pengaduan::where('id', $id)->update([
+            'alamat' => $request->alamat,
+            'tgl_kejadian' => $request->tgl_kejadian,
+            'judulLaporan' => $request->judulLaporan,
+            'isiLaporan' => $request->isiLaporan,
+        ]);
+
+        return redirect()->back()->with('success', 'Laporan Berhasil diEdit');
+    }
+
     public function proses($id)
     {
         $history = Pengaduan::where('id', $id)->update([

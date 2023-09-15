@@ -45,22 +45,20 @@
                         aria-labelledby="stats-tab">
                         @foreach ($history as $data)
                         @if($data->status == 'belum')
-                        <div class="flex flex-col mb-2 items-center bg-gray-800 border border-gray-200 rounded-lg shadow md:flex-row
-                md:max-w-full dark:border-gray-700 dark:bg-gray-800 ">
-                            <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                        <div
+                            class="flex flex-col mb-2 items-center bg-gray-800 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-full dark:border-gray-700 dark:bg-gray-800 ">
+                            <img class="object-cover w-full rounded-t-lg h-96 md:h-full md:w-48 md:rounded-none md:rounded-l-lg"
                                 src="{{ url('storage/'. $data->image) }}" alt="">
-                            <div class="flex flex-col justify-between p-4 leading-normal">
+                            <div class="flex flex-col justify-between p-4 leading-normal flex-grow">
                                 <p class="text-xs text-slate-400 normal-case">NIK : {{$data->nik_pengadu}}</p>
                                 <h5
                                     class="mb-2 text-2xl font-bold tracking-tight text-gray-100 dark:text-white capitalize subpixel-antialiased">
-                                    {{ $data->judulLaporan }}
-                                </h5>
+                                    {{ $data->judulLaporan }}</h5>
                                 <p class="mb-3 font-normal text-gray-100 dark:text-white">{{ $data->isiLaporan }}</p>
                                 <span class="text-xs text-slate-400">{{ $data->tgl_pengaduan }} / <span class="capitalize @if($data->status == 'belum') text-red-500
                                         @elseif($data->status == 'proses') text-yellow-500
                                         @elseif($data->status == 'selesai') text-green-600
-                                        @endif">{{
-                                        $data->status}}</span></span>
+                                        @endif">{{ $data->status }}</span></span>
                             </div>
                             <a href="{{route('history-detail', [ 'id' => $data->id ])}}" id="ARROW BRO"
                                 class="inline-flex h-60 items-center px-2 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-r-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
@@ -71,6 +69,7 @@
                                 </svg>
                             </a>
                         </div>
+
                         @endif
                         @endforeach
                     </div>

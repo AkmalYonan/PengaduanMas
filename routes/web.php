@@ -26,6 +26,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/history', [PengaduanController::class, 'history'])->name('history');
     Route::get('/history/{id}', [PengaduanController::class, 'show'])->name('history-detail');
+    Route::patch('/history/edit/{id}', [PengaduanController::class, 'edit'])->name('history.edit');
     Route::get('/history/downloadimg/{id}', [PengaduanController::class, 'downloadIMG'])->name('history-detail-image-download');
 });
 
