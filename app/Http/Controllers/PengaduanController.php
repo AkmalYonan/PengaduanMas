@@ -30,21 +30,33 @@ class PengaduanController extends Controller
             'image' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
         ]);
 
-        $fileName = now()->timestamp . '.' . $request->file('image')->getClientOriginalExtension();
-
-        Pengaduan::create([
-            'nik_pengadu' => Auth::user()->nik,
-            'username' => Auth::user()->username,
-            'name' => Auth::user()->name,
-            'email' => Auth::user()->email,
-            'alamat' => $request->alamat,
-            'tgl_kejadian' => $request->tgl_kejadian,
-            'image' => $request->file('image')->storeAs('image', $fileName),
-            'judulLaporan' => $request->judulLaporan,
-            'isiLaporan' => $request->isiLaporan,
-            'tgl_pengaduan' => now(),
-        ]);
-
+        if ($request->hasFile('image')) {
+            $fileName = now()->timestamp . '.' . $request->file('image')->getClientOriginalExtension();
+            Pengaduan::create([
+                'nik_pengadu' => Auth::user()->nik,
+                'username' => Auth::user()->username,
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+                'alamat' => $request->alamat,
+                'tgl_kejadian' => $request->tgl_kejadian,
+                'image' => $request->file('image')->storeAs('image', $fileName),
+                'judulLaporan' => $request->judulLaporan,
+                'isiLaporan' => $request->isiLaporan,
+                'tgl_pengaduan' => now(),
+            ]);
+        } else {
+            Pengaduan::create([
+                'nik_pengadu' => Auth::user()->nik,
+                'username' => Auth::user()->username,
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+                'alamat' => $request->alamat,
+                'tgl_kejadian' => $request->tgl_kejadian,
+                'judulLaporan' => $request->judulLaporan,
+                'isiLaporan' => $request->isiLaporan,
+                'tgl_pengaduan' => now(),
+            ]);
+        }
         return redirect()->route('history')->with('success', 'Laporan Berhasil di Buat!');
     }
 

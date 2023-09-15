@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::middleware('auth', 'verified')->group(function () {
+Route::middleware('auth:web,petugas', 'verified')->group(function () {
     Route::get('/dashboard', [PengaduanController::class, 'index'])->name('dashboard');
     Route::post('/send-laporan', [PengaduanController::class, 'store'])->name('send-laporan');
 
@@ -29,7 +29,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/history/downloadimg/{id}', [PengaduanController::class, 'downloadIMG'])->name('history-detail-image-download');
 });
 
-Route::middleware('auth', 'verified')->group(function () {
+Route::middleware('auth:petugas', 'verified')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
     Route::post('/admin/{id}/komentar', [TanggapanController::class, 'store'])->name('admin.komentar');
@@ -41,7 +41,7 @@ Route::middleware('auth', 'verified')->group(function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -23,13 +23,31 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     // dd($r)
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     return redirect()->intended(RouteServiceProvider::HOME);
+    // }
+
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        // dd($r)
+        if (Auth::guard('petugas')->attempt($request->only('email', 'password'), $request->input('remember'))) {
+            // Autentikasi berhasil untuk petugas
+            return redirect()->intended('/dashboard'); // Ganti dengan rute yang sesuai
+        }
+        // Autentikasi ke tabel users jika autentikasi petugas gagal
+        if (Auth::attempt($request->only('email', 'password'), $request->input('remember'))) {
+            // Autentikasi berhasil untuk users
+            return redirect()->intended('/dashboard'); // Ganti dengan rute yang sesuai
+        }
 
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // Autentikasi gagal
+        return back()->withErrors(['email' => 'Email atau password salah.']);
     }
 
     /**
