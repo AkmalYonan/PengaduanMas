@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePengaduanRequest;
 use App\Models\Pengaduan;
+use App\Models\Tanggapan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class PengaduanController extends Controller
 {
@@ -52,5 +55,51 @@ class PengaduanController extends Controller
         $history = Pengaduan::where('nik_pengadu', $id_user)->get();
 
         return view('masyarakat.history', compact('id_user', 'history'));
+    }
+
+    public function downloadIMG($id)
+    {
+        $download = Pengaduan::find($id);
+
+        $filePath = Storage::path($download->image);
+
+        if (!Storage::exists($download->image) || !file_exists($filePath)) {
+            return redirect()->back()->with('error', 'File tidak ditemukan di penyimpanan.');
+        }
+
+        return response()->download($filePath, 'PengaduanMasImage_Laporan');
+    }
+
+    public function show($id)
+    {
+        $history = Pengaduan::find($id);
+        $komentar = Tanggapan::where('id_pengaduan', $id)->get();
+        // dd($history);
+
+        $filePath = Storage::path($history->image);
+        $fileSizeBytes = Storage::size($history->image);
+        $fileSizeKB = round($fileSizeBytes / 1024, 2);
+        $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
+
+        return view('masyarakat.history-detail', compact('history', 'fileSizeKB', 'fileSizeMB', 'komentar'));
+    }
+
+    public function proses($id)
+    {
+        $history = Pengaduan::where('id', $id)->update([
+            'status' => 'proses',
+        ]);
+        // dd($history);
+
+        return Redirect::route('admin.index')->with('success', 'Laporan lanjut ke Tahap Proses');
+    }
+
+    public function selesai($id)
+    {
+        $history = Pengaduan::where('id', $id)->update([
+            'status' => 'selesai',
+        ]);
+
+        return redirect()->route('admin.index')->with('success', 'Laporan Berhasil diselesaikan!');
     }
 }

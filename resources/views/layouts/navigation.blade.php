@@ -21,6 +21,16 @@
                         {{ __('History') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                        {{ __('Admin') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('admin.archive')" :active="request()->routeIs('admin.archive')">
+                        {{ __('Archive') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -84,6 +94,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('history')" :active="request()->routeIs('history')">
                 {{ __('History') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                {{ __('Admin') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.archive')" :active="request()->routeIs('admin.archive')">
+                {{ __('Archive') }}
             </x-responsive-nav-link>
         </div>
 

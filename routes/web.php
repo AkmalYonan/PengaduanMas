@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TanggapanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +25,16 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/send-laporan', [PengaduanController::class, 'store'])->name('send-laporan');
 
     Route::get('/history', [PengaduanController::class, 'history'])->name('history');
+    Route::get('/history/{id}', [PengaduanController::class, 'show'])->name('history-detail');
+    Route::get('/history/downloadimg/{id}', [PengaduanController::class, 'downloadIMG'])->name('history-detail-image-download');
+});
+
+Route::middleware('auth', 'verified')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
+    Route::post('/admin/{id}/komentar', [TanggapanController::class, 'store'])->name('admin.komentar');
+    Route::patch('/history/{id}/proses', [PengaduanController::class, 'proses'])->name('history.proses');
+    Route::patch('/history/{id}/selesai', [PengaduanController::class, 'selesai'])->name('history.selesai');
 });
 
 // Route::get('/dashboard', function () {

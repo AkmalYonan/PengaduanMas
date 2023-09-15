@@ -21,4 +21,9 @@ class Pengaduan extends Model
         'status',
         'tgl_pengaduan'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "nik_pengadu", "nik");
+    }
 }

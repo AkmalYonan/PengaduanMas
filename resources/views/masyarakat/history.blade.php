@@ -45,26 +45,58 @@
                         aria-labelledby="stats-tab">
                         @foreach ($history as $data)
                         @if($data->status == 'belum')
-                        <div class="flex flex-col mb-2 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row
-                md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <div class="flex flex-col mb-2 items-center bg-gray-800 border border-gray-200 rounded-lg shadow md:flex-row
+                md:max-w-full dark:border-gray-700 dark:bg-gray-800 ">
                             <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                                 src="{{ url('storage/'. $data->image) }}" alt="">
                             <div class="flex flex-col justify-between p-4 leading-normal">
                                 <p class="text-xs text-slate-400 normal-case">NIK : {{$data->nik_pengadu}}</p>
                                 <h5
-                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white capitalize subpixel-antialiased">
-
+                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-100 dark:text-white capitalize subpixel-antialiased">
                                     {{ $data->judulLaporan }}
                                 </h5>
-                                <p class="mb-3 font-normal text-white dark:text-white">{{ $data->isiLaporan }}</p>
+                                <p class="mb-3 font-normal text-gray-100 dark:text-white">{{ $data->isiLaporan }}</p>
                                 <span class="text-xs text-slate-400">{{ $data->tgl_pengaduan }} / <span class="capitalize @if($data->status == 'belum') text-red-500
                                         @elseif($data->status == 'proses') text-yellow-500
                                         @elseif($data->status == 'selesai') text-green-600
                                         @endif">{{
                                         $data->status}}</span></span>
                             </div>
-                            <a href="#"
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <a href="{{route('history-detail', [ 'id' => $data->id ])}}" id="ARROW BRO"
+                                class="inline-flex h-60 items-center px-2 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-r-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                </svg>
+                            </a>
+                        </div>
+                        @endif
+                        @endforeach
+                    </div>
+                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-slate-100" id="about" role="tabpanel"
+                        aria-labelledby="about-tab">
+                        @foreach ($history as $data)
+                        @if($data->status == 'proses')
+                        <div class="flex flex-col mb-2 items-center bg-gray-800 border border-gray-200 rounded-lg shadow md:flex-row
+                md:max-w-full dark:border-gray-700 dark:bg-gray-800 ">
+                            <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                                src="{{ url('storage/'. $data->image) }}" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal">
+                                <p class="text-xs text-slate-400 normal-case">NIK : {{$data->nik_pengadu}}</p>
+                                <h5
+                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-100 dark:text-white capitalize subpixel-antialiased">
+                                    {{ $data->judulLaporan }}
+                                </h5>
+                                <p class="mb-3 font-normal text-gray-100 dark:text-white">{{ $data->isiLaporan }}</p>
+                                <span class="text-xs text-slate-400">{{ $data->tgl_pengaduan }} / <span class="capitalize @if($data->status == 'belum') text-red-500
+                                        @elseif($data->status == 'proses') text-yellow-500
+                                        @elseif($data->status == 'selesai') text-green-600
+                                        @endif">{{
+                                        $data->status}}</span></span>
+                            </div>
+                            <a href="{{route('history-detail', [ 'id' => $data->id ])}}" id="ARROW BRO"
+                                class="inline-flex h-60 items-center px-2 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-r-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
                                 <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 14 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -77,56 +109,35 @@
                     </div>
 
 
-                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-slate-100" id="about" role="tabpanel"
-                        aria-labelledby="about-tab">
-                        @foreach ($history as $data)
-                        @if($data->status == 'proses')
-                        <div class="flex flex-col mb-2 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row
-                md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                                src="{{ url('storage/'. $data->image) }}" alt="">
-                            <div class="flex flex-col justify-between p-4 leading-normal">
-                                <p class="text-xs text-slate-400 normal-case">NIK : {{$data->nik_pengadu}}</p>
-                                <h5
-                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white capitalize subpixel-antialiased">
-
-                                    {{ $data->judulLaporan }}
-                                </h5>
-                                <p class="mb-3 font-normal text-white dark:text-white">{{ $data->isiLaporan }}</p>
-                                <span class="text-xs text-slate-400">{{ $data->tgl_pengaduan }} / <span class="capitalize @if($data->status == 'belum') text-red-500
-                                        @elseif($data->status == 'proses') text-yellow-500
-                                        @elseif($data->status == 'selesai') text-green-600
-                                        @endif">{{
-                                        $data->status}}</span></span>
-                            </div>
-                        </div>
-                        @endif
-                        @endforeach
-                    </div>
-
-
                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-slate-100" id="faq" role="tabpanel"
                         aria-labelledby="faq-tab">
                         @foreach ($history as $data)
                         @if($data->status == 'selesai')
-                        <div class="flex flex-col mb-2 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row
-                md:max-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <div class="flex flex-col mb-2 items-center bg-gray-800 border border-gray-200 rounded-lg shadow md:flex-row
+                md:max-w-full dark:border-gray-700 dark:bg-gray-800 ">
                             <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                                 src="{{ url('storage/'. $data->image) }}" alt="">
                             <div class="flex flex-col justify-between p-4 leading-normal">
                                 <p class="text-xs text-slate-400 normal-case">NIK : {{$data->nik_pengadu}}</p>
                                 <h5
-                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white capitalize subpixel-antialiased">
-
+                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-100 dark:text-white capitalize subpixel-antialiased">
                                     {{ $data->judulLaporan }}
                                 </h5>
-                                <p class="mb-3 font-normal text-white dark:text-white">{{ $data->isiLaporan }}</p>
+                                <p class="mb-3 font-normal text-gray-100 dark:text-white">{{ $data->isiLaporan }}</p>
                                 <span class="text-xs text-slate-400">{{ $data->tgl_pengaduan }} / <span class="capitalize @if($data->status == 'belum') text-red-500
                                         @elseif($data->status == 'proses') text-yellow-500
                                         @elseif($data->status == 'selesai') text-green-600
                                         @endif">{{
                                         $data->status}}</span></span>
                             </div>
+                            <a href="{{route('history-detail', [ 'id' => $data->id ])}}" id="ARROW BRO"
+                                class="inline-flex h-60 items-center px-2 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-r-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                </svg>
+                            </a>
                         </div>
                         @endif
                         @endforeach
