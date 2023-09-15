@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::middleware('auth:web,petugas', 'verified')->group(function () {
+Route::middleware('auth:web,petugas')->group(function () {
     Route::get('/dashboard', [PengaduanController::class, 'index'])->name('dashboard');
     Route::post('/send-laporan', [PengaduanController::class, 'store'])->name('send-laporan');
 
@@ -30,8 +30,9 @@ Route::middleware('auth:web,petugas', 'verified')->group(function () {
     Route::get('/history/downloadimg/{id}', [PengaduanController::class, 'downloadIMG'])->name('history-detail-image-download');
 });
 
-Route::middleware('auth:petugas', 'verified')->group(function () {
+Route::middleware('auth:petugas')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin/add/petugas', [AdminController::class, 'createPetugas'])->name('admin.addpetugas');
     Route::get('/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
     Route::post('/admin/{id}/komentar', [TanggapanController::class, 'store'])->name('admin.komentar');
     Route::patch('/history/{id}/proses', [PengaduanController::class, 'proses'])->name('history.proses');
