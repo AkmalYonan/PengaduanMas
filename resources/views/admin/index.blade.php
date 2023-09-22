@@ -7,6 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mobile">
+            @if ($role == 'admin')
             <form method="POST" action="{{ route('admin.addpetugas') }}">
                 @csrf
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 pb-5">
@@ -75,7 +76,7 @@
                     </div>
                 </div>
             </form>
-
+            @endif
 
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-3">

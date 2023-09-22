@@ -32,6 +32,8 @@ Route::middleware('auth:web,petugas')->group(function () {
 
 Route::middleware('auth:petugas')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/dataUser', [AdminController::class, 'viewAccount'])->name('admin.viewAcc');
+    Route::get('/admin/dataUser/{id}', [AdminController::class, 'detailAccount'])->name('admin.viewAccData');
     Route::post('/admin/add/petugas', [AdminController::class, 'createPetugas'])->name('admin.addpetugas');
     Route::get('/admin/archive', [AdminController::class, 'archive'])->name('admin.archive');
     Route::post('/admin/{id}/komentar', [TanggapanController::class, 'store'])->name('admin.komentar');
@@ -43,7 +45,7 @@ Route::middleware('auth:petugas')->group(function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth:web,petugas')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
